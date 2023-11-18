@@ -1,4 +1,4 @@
-module mul_box(output [15:0] product ,input [15:0] na , nb ) // Se asumen que los numeros que entran o son normales (ya normalizados)
+module mul_box(output reg [15:0] product ,output reg inf , zero , normal ,input [15:0] na , nb ); // Se asumen que los numeros que entran o son normales (ya normalizados)
 //O se han  normalizado para operar en el caso de normal x subnormal 
 
 
@@ -20,6 +20,21 @@ begin
     partialResult = partialResult<<1;
     exponent = exponent +1 ;
 end //Ya esta normalizado el resultado
+
+if(exponent > 15 ) // El prducto es muy grande para ser representado y se devuelve infinito
+begin
+product ={sign , 5'b1 , 10'b0};
+inf = 1;
+end else if (exponent < -14 ) // El valor es pequeño devolver zero
+begin 
+product = {sign , 15'b0};    
+zero = 1;
+end else begin 
+
+product = {sign ,exponent+bias ,partialResult[21:12]};
+
+end
+
 
 end
 
