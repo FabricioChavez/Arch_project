@@ -1,0 +1,152 @@
+$date
+	Wed Nov 22 12:44:38 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module Seven_segment_tb $end
+$var wire 1 ! d3 $end
+$var wire 1 " d2 $end
+$var wire 1 # d1 $end
+$var wire 1 $ d0 $end
+$var wire 7 % LED_out [6:0] $end
+$var reg 1 & clk $end
+$var reg 16 ' producto [15:0] $end
+$var reg 1 ( rst $end
+$scope module uut $end
+$var wire 1 & clk $end
+$var wire 16 ) producto [15:0] $end
+$var wire 1 ( rst $end
+$var reg 7 * LED_out [6:0] $end
+$var reg 1 $ d0 $end
+$var reg 1 # d1 $end
+$var reg 1 " d2 $end
+$var reg 1 ! d3 $end
+$var reg 2 + next_state [1:0] $end
+$var reg 2 , state [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 ,
+b1 +
+b111000 *
+b1001000111111 )
+1(
+b1001000111111 '
+0&
+b111000 %
+1$
+0#
+0"
+0!
+$end
+#5
+1&
+#10
+0&
+0(
+#15
+b110 %
+b110 *
+1#
+0$
+b10 +
+b1 ,
+1&
+#20
+0&
+#25
+b10010 %
+b10010 *
+1"
+0#
+b11 +
+b10 ,
+1&
+#30
+0&
+#35
+b1001111 %
+b1001111 *
+1!
+0"
+b0 +
+b11 ,
+1&
+#40
+0&
+#45
+b111000 %
+b111000 *
+0!
+1$
+b1 +
+b0 ,
+1&
+#50
+0&
+#55
+b110 %
+b110 *
+1#
+0$
+b10 +
+b1 ,
+1&
+#60
+0&
+#65
+b10010 %
+b10010 *
+1"
+0#
+b11 +
+b10 ,
+1&
+#70
+0&
+#75
+b1001111 %
+b1001111 *
+1!
+0"
+b0 +
+b11 ,
+1&
+#80
+0&
+#85
+b111000 %
+b111000 *
+0!
+1$
+b1 +
+b0 ,
+1&
+#90
+0&
+#95
+b110 %
+b110 *
+1#
+0$
+b10 +
+b1 ,
+1&
+#100
+0&
+#105
+b10010 %
+b10010 *
+1"
+0#
+b11 +
+b10 ,
+1&
+#110
+0&

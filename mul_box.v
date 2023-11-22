@@ -30,12 +30,9 @@ begin
 product = {sign , 15'b0};    
 zero = 1;
 end else begin 
-
 product = {sign ,exponent+bias ,partialResult[21:12]};
-
+normal =1;
 end
-
-
 end
 
 

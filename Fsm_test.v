@@ -1,6 +1,5 @@
 
 
-
 module Fp_clasifier
 (input [15:0] float , 
 output snan , qnan , inf , zero , subnormal , normal );
@@ -83,3 +82,79 @@ module FP_mul(output wire [15:0] producto, input [15:0] na, nb, output reg snan,
 
     assign producto = productoTemp; // Asigna productoTemp a la salida producto
 endmodule
+
+
+module Fp_mul_fsm(output reg [15:0] producto, input [15:0] na,input   clk , rst  , SAVE);
+
+wire qnan, inf, zero, subnormal, normal;
+reg [1:0 ]state , next_state;
+parameter save_a = 2'b00 , save_b=2'b01 , save_none = 2'b11  ;
+reg [15:0]  current_a , current_b ;
+wire[15:0] product;
+FP_mul mod(.producto(product), .na(current_a) , .nb(current_b)  , .snan(snan) , .qnan(qnan) , .inf(inf) , .zero(zero) , .subnormal(subnormal) , .normal(normal));
+
+//next stage logic O TUTORIAL PARA RODRIGO
+
+always @*  //Pones el valor de a en los switches , SAVE  --> estaras guardando ese valor y pasaras al valor de save B (lo q tengas puesto ahi se estara guardando) una vez presionas SAVE
+//el valor de B se quedara pegado y debera mostrarse el valor en los leds
+
+begin
+
+case (state)
+
+        save_a:
+            if(SAVE) begin
+                next_state = save_b;
+                
+            end
+            else next_state =save_a;
+        save_b: 
+            if(SAVE) begin
+               next_state= save_none;
+            
+            end
+             else  begin next_state = save_b; end
+    
+        save_none:
+            if(SAVE)
+             next_state = save_a;
+            else next_state = save_none;     
+endcase
+
+
+
+end 
+
+// Lógica secuencial para el manejo de estados y registros
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            state <= save_none;
+            current_a <= 0;
+            current_b <= 0;
+        end else begin
+     
+            if (state == save_none && next_state == save_a) begin
+                current_a <= na;
+            end
+            if (state == save_a && next_state == save_b) begin
+                current_b <= na;
+            end
+
+                   state <= next_state;
+        end
+    end
+
+    // Lógica de salida
+    always @* begin
+        case (state)
+            save_a: producto = current_a;
+            save_b: producto = current_b;
+            save_none: producto = product;
+            default: producto = 16'b0;
+        endcase
+    end
+        
+endmodule
+
+
+
