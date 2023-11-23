@@ -84,7 +84,7 @@ module FP_mul(output wire [15:0] producto, input [15:0] na, nb, output reg snan,
 endmodule
 
 
-module Fp_mul_fsm(output reg [15:0] producto, input [15:0] na,input   clk , rst  , SAVE);
+module Fp_mul_fsm(output reg [15:0] producto, input [15:0] na,input   clk , rst  , SAVE , CALCULATION);
 
 wire qnan, inf, zero, subnormal, normal;
 reg [1:0 ]state , next_state;
