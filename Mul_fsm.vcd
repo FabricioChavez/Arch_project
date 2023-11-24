@@ -1,0 +1,343 @@
+$date
+	Wed Nov 22 14:21:20 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module Fp_mul_fsm_tb $end
+$var wire 1 ! d3 $end
+$var wire 1 " d2 $end
+$var wire 1 # d1 $end
+$var wire 1 $ d0 $end
+$var wire 7 % LED_out [6:0] $end
+$var reg 1 & SAVE $end
+$var reg 1 ' clk $end
+$var reg 16 ( na [15:0] $end
+$var reg 1 ) rst $end
+$scope module uut $end
+$var wire 1 & SAVE $end
+$var wire 1 ' clk $end
+$var wire 16 * na [15:0] $end
+$var wire 1 ) rst $end
+$var wire 16 + producto [15:0] $end
+$var reg 7 , LED_out [6:0] $end
+$var reg 1 $ d0 $end
+$var reg 1 # d1 $end
+$var reg 1 " d2 $end
+$var reg 1 ! d3 $end
+$var reg 2 - next_state [1:0] $end
+$var reg 2 . state [1:0] $end
+$scope module sub_unit $end
+$var wire 1 & SAVE $end
+$var wire 1 ' clk $end
+$var wire 16 / na [15:0] $end
+$var wire 1 ) rst $end
+$var wire 1 0 zero $end
+$var wire 1 1 subnormal $end
+$var wire 1 2 snan $end
+$var wire 1 3 qnan $end
+$var wire 16 4 product [15:0] $end
+$var wire 1 5 normal $end
+$var wire 1 6 inf $end
+$var reg 16 7 current_a [15:0] $end
+$var reg 16 8 current_b [15:0] $end
+$var reg 2 9 next_state [1:0] $end
+$var reg 16 : producto [15:0] $end
+$var reg 2 ; state [1:0] $end
+$scope module mod $end
+$var wire 16 < na [15:0] $end
+$var wire 16 = nb [15:0] $end
+$var wire 16 > producto [15:0] $end
+$var wire 1 ? Bzero $end
+$var wire 1 @ Bsubnormal $end
+$var wire 1 A Bsnan $end
+$var wire 1 B Bqnan $end
+$var wire 1 C Bnormal $end
+$var wire 1 D Binf $end
+$var wire 1 E Azero $end
+$var wire 1 F Asubnormal $end
+$var wire 1 G Asnan $end
+$var wire 1 H Aqnan $end
+$var wire 1 I Anormal $end
+$var wire 1 J Ainf $end
+$var reg 16 K Signo [15:0] $end
+$var reg 5 L expa [4:0] $end
+$var reg 5 M expb [4:0] $end
+$var reg 6 N exponent [5:0] $end
+$var reg 1 6 inf $end
+$var reg 1 5 normal $end
+$var reg 22 O partialResult [21:0] $end
+$var reg 16 P productoTemp [15:0] $end
+$var reg 1 3 qnan $end
+$var reg 1 2 snan $end
+$var reg 1 1 subnormal $end
+$var reg 1 0 zero $end
+$scope module A $end
+$var wire 16 Q float [15:0] $end
+$var wire 1 J inf $end
+$var wire 1 I normal $end
+$var wire 1 H qnan $end
+$var wire 1 G snan $end
+$var wire 1 F subnormal $end
+$var wire 1 E zero $end
+$var wire 1 R sigZeroes $end
+$var wire 1 S expZeroes $end
+$var wire 1 T expOnes $end
+$upscope $end
+$scope module B $end
+$var wire 16 U float [15:0] $end
+$var wire 1 D inf $end
+$var wire 1 C normal $end
+$var wire 1 B qnan $end
+$var wire 1 A snan $end
+$var wire 1 @ subnormal $end
+$var wire 1 ? zero $end
+$var wire 1 V sigZeroes $end
+$var wire 1 W expZeroes $end
+$var wire 1 X expOnes $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0X
+1W
+1V
+b0 U
+0T
+1S
+1R
+b0 Q
+b0 P
+b100000000000000000000 O
+b110001 N
+b10001 M
+b10001 L
+b0 K
+0J
+0I
+0H
+0G
+0F
+1E
+0D
+0C
+0B
+0A
+0@
+1?
+b0 >
+b0 =
+b0 <
+b11 ;
+b0 :
+b11 9
+b0 8
+b0 7
+06
+05
+b0 4
+03
+02
+01
+10
+bx /
+b0 .
+b1 -
+b1 ,
+b0 +
+bx *
+1)
+bx (
+0'
+0&
+b1 %
+1$
+0#
+0"
+0!
+$end
+#2
+b0 9
+0)
+1&
+b100000000000000 (
+b100000000000000 *
+b100000000000000 /
+#3
+b11 9
+0&
+#5
+1#
+0$
+b10 -
+b1 .
+1'
+#10
+0'
+#13
+b0 9
+1&
+#15
+1I
+0E
+b1 9
+0S
+10
+b100000000000000 +
+b100000000000000 :
+1"
+0#
+b11 -
+b0 ;
+b100000000000000 7
+b100000000000000 <
+b100000000000000 Q
+b10 .
+1'
+#20
+0'
+#23
+b0 9
+b100001000000000 (
+b100001000000000 *
+b100001000000000 /
+0&
+#25
+b1001100 %
+b1001100 ,
+1!
+0"
+b0 -
+b11 .
+1'
+#30
+0'
+#33
+b1 9
+1&
+#35
+1C
+15
+b100011000000000 4
+b100011000000000 >
+b100011000000000 P
+b110000000000000000000 O
+b10001 N
+b1 M
+b1 L
+0?
+b11 9
+0W
+0V
+00
+b100001000000000 +
+b100001000000000 :
+b1 %
+b1 ,
+0!
+1$
+b1 -
+b1 ;
+b100001000000000 8
+b100001000000000 =
+b100001000000000 U
+b0 .
+1'
+#40
+0'
+#43
+b1 9
+b101111111010001 (
+b101111111010001 *
+b101111111010001 /
+0&
+#45
+1#
+0$
+b10 -
+b1 .
+1'
+#50
+0'
+#53
+b11 9
+1&
+#55
+b100011000000000 +
+b100011000000000 :
+b0 9
+b100000 %
+b100000 ,
+1"
+0#
+b11 -
+b11 ;
+b10 .
+1'
+#60
+0'
+#63
+b11 9
+0&
+b101101110101101 (
+b101101110101101 *
+b101101110101101 /
+#65
+b1001100 %
+b1001100 ,
+1!
+0"
+b0 -
+b11 .
+1'
+#70
+0'
+#73
+b0 9
+1&
+#75
+b1 9
+0R
+b110000111000001 4
+b110000111000001 >
+b110000111000001 P
+b101110000011100000000 O
+b11000 N
+b111 L
+15
+b101101110101101 +
+b101101110101101 :
+b1 %
+b1 ,
+0!
+1$
+b1 -
+b0 ;
+b101101110101101 7
+b101101110101101 <
+b101101110101101 Q
+b0 .
+1'
+#80
+0'
+#83
+b0 9
+0&
+#85
+b1000 %
+b1000 ,
+1#
+0$
+b10 -
+b1 .
+1'
+#90
+0'
+#93

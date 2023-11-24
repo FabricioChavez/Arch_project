@@ -1,4 +1,28 @@
 
+module memo(
+        input  clk , rst ,
+        input  [31:0] a, 
+        output  reg [15:0] ra,
+        output reg [15:0] rb 
+
+    );
+        reg[32:0] RAM[20:0];
+        integer i;
+        initial begin
+            $readmemh("D:/Proyecto/Arch/Arch_project/calculations.dat", RAM);
+            
+        end
+
+    always  @(*)
+    begin
+
+            ra=RAM[a][31:16];
+            rb=RAM[a][15:0];
+    end
+
+
+
+endmodule
 
 module Fp_clasifier
 (input [15:0] float , 
@@ -83,125 +107,72 @@ module FP_mul(output wire [15:0] producto, input [15:0] na, nb, output reg snan,
     assign producto = productoTemp; // Asigna productoTemp a la salida producto
 endmodule
 
-
-module Fp_mul_fsm(output reg [15:0] producto, input [15:0] na,input   clk , rst  , SAVE);
-
-wire qnan, inf, zero, subnormal, normal;
-reg [1:0 ]state , next_state;
-parameter save_a = 2'b00 , save_b=2'b01 , save_none = 2'b11  ;
-reg [15:0]  current_a , current_b ;
-wire[15:0] product;
-FP_mul mod(.producto(product), .na(current_a) , .nb(current_b)  , .snan(snan) , .qnan(qnan) , .inf(inf) , .zero(zero) , .subnormal(subnormal) , .normal(normal));
-
-//next stage logic O TUTORIAL PARA RODRIGO
-
-always @*  //Pones el valor de a en los switches , SAVE  --> estaras guardando ese valor y pasaras al valor de save B (lo q tengas puesto ahi se estara guardando) una vez presionas SAVE
-//el valor de B se quedara pegado y debera mostrarse el valor en los leds
-
-begin
-
-case (state)
-
-        save_a:
-            if(SAVE) begin
-                next_state = save_b;
-                
-            end
-            else next_state =save_a;
-        save_b: 
-            if(SAVE) begin
-               next_state= save_none;
-            
-            end
-             else  begin next_state = save_b; end
+module ClockDivider (
+    input wire clk,      // Frecuencia de reloj original
+    input wire rst,      // Reset asincrónico
+    output reg clk_out  // Frecuencia de reloj reducida
+);
     
-        save_none:
-            if(SAVE)
-             next_state = save_a;
-            else next_state = save_none;     
-endcase
-
-
-
-end 
-
-// Lógica secuencial para el manejo de estados y registros
+    reg [31:0] count;        // Contador para dividir la frecuencia
+    
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            state <= save_none;
-            current_a <= 0;
-            current_b <= 0;
+            count <= 0;
         end else begin
-     
-            if (state == save_none && next_state == save_a) begin
-                current_a <= na;
+            if (count == 224999) begin  // Ajusta este valor para obtener la frecuencia deseada
+                count <= 0;
+                clk_out <= ~clk_out;    // Invierte el pulso de reloj reducido
+            end else begin
+                count <= count + 1;
             end
-            if (state == save_a && next_state == save_b) begin
-                current_b <= na;
-            end
-
-                   state <= next_state;
         end
     end
 
-    // Lógica de salida
-    always @* begin
-        case (state)
-            save_a: producto = current_a;
-            save_b: producto = current_b;
-            save_none: producto = product;
-            default: producto = 16'b0;
-        endcase
-    end
-        
 endmodule
 
 
 
-module Seven_segment_fsm(input [15:0] na , input clk , rst  ,  SAVE, output reg [6:0] LED_out , output reg d0 , d1 , d2 ,d3);
 
+module Seven_segment(
+    input [15:0] producto, 
+    input clk, rst, 
+    output reg [6:0] LED_out, 
+    output reg d0, d1, d2, d3
+);
 
+wire new_clk;
 reg [1:0] state , next_state;
 parameter s3 = 2'b11, s2 = 2'b10, s1 = 2'b01, s0 = 2'b00;
-wire [15:0] producto;
-Fp_mul_fsm sub_unit(.producto(producto), .na(na) , .clk(clk) , .rst(rst)  , .SAVE(SAVE));
+
+// Clock Divider
+ClockDivider clkd(clk, rst, new_clk);
 
 //next state logic 
 
-always @ (*) begin
-
-case(state)
-  s0: next_state = s1;
-  s1: next_state = s2;
-  s2: next_state = s3;
-  s3: next_state = s0;
-endcase
+always @ (*) begin    
+    case(state)
+      s0: next_state = s1;
+      s1: next_state = s2;
+      s2: next_state = s3;
+      s3: next_state = s0;
+    endcase
 end
 
-
-
-always @(posedge clk , posedge rst )
+always @(posedge new_clk , posedge rst)
 begin
-
-  if (rst) 
-     state <= s0;
- else 
-    state <= next_state;
-    
+    if (rst) 
+        state <= s0;
+    else 
+        state <= next_state;
 end
-
-
-
 
 always @(*) begin
-
     case(state)
 
     s0: begin
-        d0=1; d1 =0 ; d2=0 ; d3 =0;
+        d0=0; d1=1 ; d2=1 ; d3 =1;
 
-        case(producto[3:0])
-
+        case(producto[3:0]) 
         4'b0000: LED_out = 7'b0000001; // "0"     
         4'b0001: LED_out = 7'b1001111; // "1" 
         4'b0010: LED_out = 7'b0010010; // "2" 
@@ -218,16 +189,13 @@ always @(*) begin
         4'b1101: LED_out = 7'b0000001; // "D"
         4'b1110: LED_out = 7'b0110000; // "E"
         4'b1111: LED_out = 7'b0111000; // "F"    
-
-
-
         endcase
     end
-    s1:begin
-         d0=0; d1 =1 ; d2=0 ; d3 =0;
+    
+    s1: begin
+        d0=1; d1 =0 ; d2=1 ; d3 =1;
 
         case(producto[7:4])
-
         4'b0000: LED_out = 7'b0000001; // "0"     
         4'b0001: LED_out = 7'b1001111; // "1" 
         4'b0010: LED_out = 7'b0010010; // "2" 
@@ -244,67 +212,115 @@ always @(*) begin
         4'b1101: LED_out = 7'b0000001; // "D"
         4'b1110: LED_out = 7'b0110000; // "E"
         4'b1111: LED_out = 7'b0111000; // "F"    
-
-
-
-        endcase
-     end   
-    s2:begin
-        d0=0; d1 =0 ; d2=1 ; d3 =0;
-
-        case(producto[11:8])
-
-        4'b0000: LED_out = 7'b0000001; // "0"     
-        4'b0001: LED_out = 7'b1001111; // "1" 
-        4'b0010: LED_out = 7'b0010010; // "2" 
-        4'b0011: LED_out = 7'b0000110; // "3" 
-        4'b0100: LED_out = 7'b1001100; // "4" 
-        4'b0101: LED_out = 7'b0100100; // "5" 
-        4'b0110: LED_out = 7'b0100000; // "6" 
-        4'b0111: LED_out = 7'b0001111; // "7" 
-        4'b1000: LED_out = 7'b0000000; // "8"     
-        4'b1001: LED_out = 7'b0000100; // "9" 
-        4'b1010: LED_out = 7'b0001000; // "A" 
-        4'b1011: LED_out = 7'b0000000; // "B" 
-        4'b1100: LED_out = 7'b0110001; // "C"
-        4'b1101: LED_out = 7'b0000001; // "D"
-        4'b1110: LED_out = 7'b0110000; // "E"
-        4'b1111: LED_out = 7'b0111000; // "F"    
-
-
-
-        endcase
-        end
-    s3:begin
-         d0=0; d1 =0 ; d2=0 ; d3 =1;
-
-        case(producto[15:12])
-
-        4'b0000: LED_out = 7'b0000001; // "0"     
-        4'b0001: LED_out = 7'b1001111; // "1" 
-        4'b0010: LED_out = 7'b0010010; // "2" 
-        4'b0011: LED_out = 7'b0000110; // "3" 
-        4'b0100: LED_out = 7'b1001100; // "4" 
-        4'b0101: LED_out = 7'b0100100; // "5" 
-        4'b0110: LED_out = 7'b0100000; // "6" 
-        4'b0111: LED_out = 7'b0001111; // "7" 
-        4'b1000: LED_out = 7'b0000000; // "8"     
-        4'b1001: LED_out = 7'b0000100; // "9" 
-        4'b1010: LED_out = 7'b0001000; // "A" 
-        4'b1011: LED_out = 7'b0000000; // "B" 
-        4'b1100: LED_out = 7'b0110001; // "C"
-        4'b1101: LED_out = 7'b0000001; // "D"
-        4'b1110: LED_out = 7'b0110000; // "E"
-        4'b1111: LED_out = 7'b0111000; // "F"    
-
-
-
         endcase
     end
+        
+    s2:begin
+        d0=1; d1 =1 ; d2=0 ; d3 =1;
 
+        case(producto[11:8])
+        4'b0000: LED_out = 7'b0000001; // "0"     
+        4'b0001: LED_out = 7'b1001111; // "1" 
+        4'b0010: LED_out = 7'b0010010; // "2" 
+        4'b0011: LED_out = 7'b0000110; // "3" 
+        4'b0100: LED_out = 7'b1001100; // "4" 
+        4'b0101: LED_out = 7'b0100100; // "5" 
+        4'b0110: LED_out = 7'b0100000; // "6" 
+        4'b0111: LED_out = 7'b0001111; // "7" 
+        4'b1000: LED_out = 7'b0000000; // "8"     
+        4'b1001: LED_out = 7'b0000100; // "9" 
+        4'b1010: LED_out = 7'b0001000; // "A" 
+        4'b1011: LED_out = 7'b0000000; // "B" 
+        4'b1100: LED_out = 7'b0110001; // "C"
+        4'b1101: LED_out = 7'b0000001; // "D"
+        4'b1110: LED_out = 7'b0110000; // "E"
+        4'b1111: LED_out = 7'b0111000; // "F"    
+        endcase
+    end
+    
+    s3: begin
+        d0=1; d1 =1 ; d2=1 ; d3 =0;
+
+        case(producto[15:12])
+        4'b0000: LED_out = 7'b0000001; // "0"     
+        4'b0001: LED_out = 7'b1001111; // "1" 
+        4'b0010: LED_out = 7'b0010010; // "2" 
+        4'b0011: LED_out = 7'b0000110; // "3" 
+        4'b0100: LED_out = 7'b1001100; // "4" 
+        4'b0101: LED_out = 7'b0100100; // "5" 
+        4'b0110: LED_out = 7'b0100000; // "6" 
+        4'b0111: LED_out = 7'b0001111; // "7" 
+        4'b1000: LED_out = 7'b0000000; // "8"     
+        4'b1001: LED_out = 7'b0000100; // "9" 
+        4'b1010: LED_out = 7'b0001000; // "A" 
+        4'b1011: LED_out = 7'b0000000; // "B" 
+        4'b1100: LED_out = 7'b0110001; // "C"
+        4'b1101: LED_out = 7'b0000001; // "D"
+        4'b1110: LED_out = 7'b0110000; // "E"
+        4'b1111: LED_out = 7'b0111000; // "F"    
+        endcase
+    end
     endcase
+end
+endmodule
+
+
+
+module Case_interator( input   clk , rst  , NEXT  ,   output wire [6:0] LED_out, 
+    output wire d0, d1, d2, d3);
+wire [15:0] producto;
+reg [2:0] state , next_state;
+reg [31:0] counter;
+parameter hold =2'b00 , pressed_buttom = 2'b01 , released_buttom = 2'b10;
+wire [15:0] A , B ;
+wire snan, qnan, inf, zero, subnormal, normal;
+memo OPERANDS_REGISTER(clk , rst , counter , A , B );
+FP_mul MULTIPLICA(.producto(producto),.na(A) , .nb(B)  , .snan(snan) , .qnan(qnan) , .inf(inf) , .zero(zero) , .subnormal(subnormal) , .normal(normal));
+Seven_segment  DISPLAY(.producto(producto) , .clk(clk) , .rst(rst) , .LED_out(LED_out) , .d0(d0) , .d1(d1) , .d2(d2) , .d3(d3 ));
+always @*
+begin
+
+case(state)
+
+hold: begin
+    if(NEXT) next_state = pressed_buttom;
+    else next_state = hold;
+end
+pressed_buttom :  begin
+    if(!NEXT) next_state = released_buttom;
+    else next_state = pressed_buttom;
+    end
+released_buttom: begin
+    if(NEXT) next_state = hold;
+else next_state = released_buttom;
+end
+endcase
 
 
 
 end
+
+
+
+always @(posedge clk , posedge rst)
+begin
+
+if(rst) begin
+ counter<=0;
+ state<=hold;
+end
+else begin
+state<=next_state;
+if(state== pressed_buttom && next_state == released_buttom)
+ counter<=counter+1;
+  
+
+end
+
+
+end
+
+
+
 endmodule
+

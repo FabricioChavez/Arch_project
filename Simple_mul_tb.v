@@ -37,7 +37,7 @@ initial begin
       partialResult ={1'b1, na[9:0]} * {1'b1, nb[9:0]};
      //result must be 0xFFFF NAN (no le grabes a este caso en la basys )
      #10
-      na = 16'h5C01; //256.3
+      na = 16'h5C01; //256.3---------
      nb =  16'h4B2E; //14.36
       partialResult ={1'b1, na[9:0]} * {1'b1, nb[9:0]};
      //result must be 0x6B2F --> 0x6B30 Sale eso en IEEE calcualor , pero nosostros no redondeamos

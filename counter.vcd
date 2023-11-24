@@ -1,5 +1,5 @@
 $date
-	Thu Nov 23 11:53:03 2023
+	Thu Nov 23 14:34:38 2023
 $end
 $version
 	Icarus Verilog
@@ -16,23 +16,131 @@ $scope module uut $end
 $var wire 1 " NEXT $end
 $var wire 1 # clk $end
 $var wire 1 $ rst $end
-$var reg 33 % counter [32:0] $end
-$var reg 3 & next_state [2:0] $end
-$var reg 16 ' producto [15:0] $end
-$var reg 3 ( state [2:0] $end
+$var wire 1 % zero $end
+$var wire 1 & subnormal $end
+$var wire 1 ' snan $end
+$var wire 1 ( qnan $end
+$var wire 16 ) producto [15:0] $end
+$var wire 1 * normal $end
+$var wire 1 + inf $end
+$var wire 16 , B [15:0] $end
+$var wire 16 - A [15:0] $end
+$var reg 32 . counter [31:0] $end
+$var reg 3 / next_state [2:0] $end
+$var reg 3 0 state [2:0] $end
+$scope module MULTIPLICA $end
+$var wire 16 1 producto [15:0] $end
+$var wire 16 2 nb [15:0] $end
+$var wire 16 3 na [15:0] $end
+$var wire 1 4 Bzero $end
+$var wire 1 5 Bsubnormal $end
+$var wire 1 6 Bsnan $end
+$var wire 1 7 Bqnan $end
+$var wire 1 8 Bnormal $end
+$var wire 1 9 Binf $end
+$var wire 1 : Azero $end
+$var wire 1 ; Asubnormal $end
+$var wire 1 < Asnan $end
+$var wire 1 = Aqnan $end
+$var wire 1 > Anormal $end
+$var wire 1 ? Ainf $end
+$var reg 16 @ Signo [15:0] $end
+$var reg 5 A expa [4:0] $end
+$var reg 5 B expb [4:0] $end
+$var reg 6 C exponent [5:0] $end
+$var reg 1 + inf $end
+$var reg 1 * normal $end
+$var reg 22 D partialResult [21:0] $end
+$var reg 16 E productoTemp [15:0] $end
+$var reg 1 ( qnan $end
+$var reg 1 ' snan $end
+$var reg 1 & subnormal $end
+$var reg 1 % zero $end
+$scope module A $end
+$var wire 1 ? inf $end
+$var wire 1 > normal $end
+$var wire 1 = qnan $end
+$var wire 1 < snan $end
+$var wire 1 ; subnormal $end
+$var wire 1 : zero $end
+$var wire 1 F sigZeroes $end
+$var wire 16 G float [15:0] $end
+$var wire 1 H expZeroes $end
+$var wire 1 I expOnes $end
+$upscope $end
+$scope module B $end
+$var wire 1 9 inf $end
+$var wire 1 8 normal $end
+$var wire 1 7 qnan $end
+$var wire 1 6 snan $end
+$var wire 1 5 subnormal $end
+$var wire 1 4 zero $end
+$var wire 1 J sigZeroes $end
+$var wire 16 K float [15:0] $end
+$var wire 1 L expZeroes $end
+$var wire 1 M expOnes $end
+$upscope $end
+$upscope $end
+$scope module OPERANDS_REGISTER $end
+$var wire 32 N a [31:0] $end
+$var wire 1 # clk $end
+$var wire 1 $ rst $end
+$var reg 16 O ra [15:0] $end
+$var reg 16 P rb [15:0] $end
+$upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b0 (
-bx '
-b0 &
-b0 %
+b100001000000000 P
+b100000000000000 O
+b0 N
+0M
+0L
+b100001000000000 K
+0J
+0I
+0H
+b100000000000000 G
+1F
+b100011000000000 E
+b110000000000000000000 D
+b10001 C
+b1 B
+b1 A
+b0 @
+0?
+1>
+0=
+0<
+0;
+0:
+09
+18
+07
+06
+05
+04
+b100000000000000 3
+b100001000000000 2
+b100011000000000 1
+b0 0
+b0 /
+b0 .
+b100000000000000 -
+b100001000000000 ,
+0+
+1*
+b100011000000000 )
+0(
+0'
+0&
+0%
 1$
 0#
 0"
-bx !
+b100011000000000 !
 $end
 #10
 1#
@@ -44,16 +152,34 @@ $end
 #40
 0#
 #50
-b1 (
-b1 &
+b1 0
+b1 /
 1#
 1"
 #60
 0#
 #70
-b1 %
-b10 (
-b10 &
+0F
+b100000100001111 !
+b100000100001111 )
+b100000100001111 1
+b100000100001111 E
+b101000011110101011100 D
+b10000 C
+b0 B
+1*
+b11110001100110 ,
+b11110001100110 2
+b11110001100110 K
+b11110001100110 P
+b100000010011010 -
+b100000010011010 3
+b100000010011010 G
+b100000010011010 O
+b1 .
+b1 N
+b10 0
+b10 /
 1#
 0"
 #80
@@ -63,14 +189,14 @@ b10 &
 #100
 0#
 #110
-b0 (
-b1 &
+b0 0
+b1 /
 1#
 1"
 #120
 0#
 #130
-b0 &
+b0 /
 1#
 0"
 #140
@@ -82,19 +208,39 @@ b0 &
 #170
 1#
 #180
-b1 &
+b1 /
 0#
 1"
 #190
-b1 (
+b1 0
 1#
 #200
-b10 &
+b10 /
 0#
 0"
 #210
-b10 %
-b10 (
+0>
+0'
+0<
+1?
+1F
+1I
+1+
+b111110000000000 !
+b111110000000000 )
+b111110000000000 1
+b111110000000000 E
+b100011001100000000000 D
+b11111 C
+b10000 A
+0*
+b111110000000000 -
+b111110000000000 3
+b111110000000000 G
+b111110000000000 O
+b10 .
+b10 N
+b10 0
 1#
 #220
 0#

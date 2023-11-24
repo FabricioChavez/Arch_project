@@ -91,7 +91,7 @@ reg [1:0 ]state , next_state;
 parameter save_a = 2'b00 , save_b=2'b01 , save_none = 2'b11  ;
 reg [15:0]  current_a , current_b ;
 wire[15:0] product;
-FP_mul mod(.producto(product), .na(current_a) , .nb(current_b)  , .snan(snan) , .qnan(qnan) , .inf(inf) , .zero(zero) , .subnormal(subnormal) , .normal(normal));
+FP_mul mod( .producto(product), .na(current_a) , .nb(current_b)  , .snan(snan) , .qnan(qnan) , .inf(inf) , .zero(zero) , .subnormal(subnormal) , .normal(normal));
 
 //next stage logic O TUTORIAL PARA RODRIGO
 
