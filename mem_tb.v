@@ -20,15 +20,23 @@ address = 32'h2;
 #10
 address = 32'h3;
 #10
-address = 32'h4;
+address = 32'h5;
 #10
 byte_src = 0;
 address = 32'h4;
 #10
 address = 32'h8;
+we=1;
+data2write = 32'hFFFFFFFF;
+
 #10
+we=0;
 address = 32'h8;
 
+#10
+we=1;
+byte_src=1;
+data2write= 32'h85;
 #10
 $finish;
 end
